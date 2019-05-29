@@ -26,8 +26,8 @@ public class hwmPrefabSerializedCleaner : EditorWindow
 				GameObject iterPrefab = AssetDatabase.LoadAssetAtPath(iterPrefabPath, typeof(GameObject)) as GameObject;
 				if (iterPrefab != null)
 				{
-					GameObject go = Instantiate(iterPrefab);
-					PrefabUtility.ReplacePrefab(go, iterPrefab);
+					GameObject go = PrefabUtility.InstantiatePrefab(iterPrefab) as GameObject;
+					PrefabUtility.SaveAsPrefabAsset(go, iterPrefabPath);
 					DestroyImmediate(go);
 					processPrefabCount++;
 				}
