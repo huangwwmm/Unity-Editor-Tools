@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Unit
+  m_EditorClassIdentifier: 
+  m_GroupName: Unit
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 92caeb5607a55d245acd190e22a24559
+  m_SerializeEntries:
+  - m_GUID: 190a7bec2282e054eaddbb31905bb689
+    m_Address: Assets\Test\Addressalbe\Unit\New Folder\GameObje 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - B
+    - C
+  - m_GUID: 407ad1632c7c01748b6c53422fda6dfa
+    m_Address: Assets\Test\Addressalbe\Unit\New Folder\GameObje Variant.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - B
+    - C
+  - m_GUID: cf2244d4c6ba05e40ab1352032070621
+    m_Address: Assets\Test\Addressalbe\Unit\New Folder\GameObje.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - B
+    - C
+  - m_GUID: f1f8b76c4f9b5c8469dfe58a621d6a6c
+    m_Address: Assets\Test\Addressalbe\Unit\GameObje5.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - B
+    - C
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 99cf4797c72972c4583b52770e4f2a58, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 40d6bba94af9f2348a3d8468e1b86dbd, type: 2}

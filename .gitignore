@@ -1,7 +1,8 @@
 /.vs/
 /Logs/
 /obj/
-/Packages/
 /Library/
+/Temp/
+/Built/
 *.csproj
 *.sln

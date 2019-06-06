@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d9dbe26f554f74ea7a41900012e40a, type: 3}
+  m_Name: AddressablesSystemConfig
+  m_EditorClassIdentifier: 
+  GroupRules:
+  - GroupName: Map
+    SchemasToCopy:
+    - {fileID: 11400000, guid: 4ea0cd1a2f74e1c4dba5493c331a40da, type: 2}
+    AssetRules:
+    - Path: Assets/Test/Addressalbe/Map/
+      IncludeChilder: 1
+      AssetKeyType: 2
+      AssetKeyFormat: Map_{0}
+      ExtensionFilterType: 0
+      ExtensionFilters:
+      - .prefab
+      - .mat
+      FileNameFilterType: 1
+      FileNameFilters: []
+      AssetLables:
+      - A
+      - B
+  - GroupName: Unit
+    SchemasToCopy:
+    - {fileID: 11400000, guid: bf1f28ab9205768449c1c304718f6264, type: 2}
+    AssetRules:
+    - Path: Assets/Test/Addressalbe/Unit/
+      IncludeChilder: 1
+      AssetKeyType: 0
+      AssetKeyFormat: 
+      ExtensionFilterType: 1
+      ExtensionFilters:
+      - .mat
+      FileNameFilterType: 1
+      FileNameFilters: []
+      AssetLables:
+      - B
+      - C
