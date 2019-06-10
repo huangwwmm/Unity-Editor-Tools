@@ -22,29 +22,75 @@ public static class hwmAddressablesSystemUtility
 				continue;
 			}
 
-			GenerateWithGroupRule(settings, iterGroupRule);
+			GenerateWithGroupRule(settings, config.MyGenerateSetting, iterGroupRule);
 		}
-		Debug.Log("Generate all finish");
+		Debug.Log("Generate all group finish");
 	}
 
-	private static void GenerateWithGroupRule(AddressableAssetSettings settings, GroupRule groupRule)
+	public static void GenerateSpecified(hwmAddressablesSystemConfig config)
 	{
-		AddressableAssetGroup oldGroup = settings.FindGroup(groupRule.GroupName);
-		if (oldGroup)
+		string specifiedGroupName = config.MyGenerateSetting.SpecifiedGroupName;
+		if (string.IsNullOrWhiteSpace(specifiedGroupName))
 		{
-			settings.RemoveGroup(oldGroup);
-			oldGroup = null;
+			Debug.LogError("Specified group name is empty");
+			return;
 		}
 
-		AddressableAssetGroup group = settings.CreateGroup(groupRule.GroupName, false, false, true, groupRule.SchemasToCopy);
+		bool generate = false;
+		AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+		for (int iGroupRule = 0; iGroupRule < config.GroupRules.Length; iGroupRule++)
+		{
+			GroupRule iterGroupRule = config.GroupRules[iGroupRule];
+			if (iterGroupRule.GroupName == specifiedGroupName)
+			{
+				generate = true;
+				GenerateWithGroupRule(settings, config.MyGenerateSetting, iterGroupRule);
+			}
+		}
+
+		if (generate)
+		{
+			Debug.Log(string.Format("Generate specified group ({0}) finish", specifiedGroupName));
+		}
+		else
+		{
+			Debug.LogError(string.Format("Not found specified group ({0})", specifiedGroupName));
+		}
+	}
+
+	private static void GenerateWithGroupRule(AddressableAssetSettings settings, GenerateSetting generateSetting, GroupRule groupRule)
+	{
+		AddressableAssetGroup oldGroup = settings.FindGroup(groupRule.GroupName);
+		AddressableAssetGroup group;
+		if (generateSetting.RecreateGroup)
+		{
+			if (oldGroup)
+			{
+				settings.RemoveGroup(oldGroup);
+				oldGroup = null;
+			}
+			group = settings.CreateGroup(groupRule.GroupName, false, false, true, groupRule.SchemasToCopy);
+		}
+		else
+		{
+			if (oldGroup)
+			{
+				group = oldGroup;
+			}
+			else
+			{
+				group = settings.CreateGroup(groupRule.GroupName, false, false, true, groupRule.SchemasToCopy);
+			}
+		}
+
 		for (int iAssetRule = 0; iAssetRule < groupRule.AssetRules.Length; iAssetRule++)
 		{
 			AssetRule iterAssetRule = groupRule.AssetRules[iAssetRule];
-			GenerateWithAssetRule(settings, group, groupRule, iterAssetRule);
+			GenerateWithAssetRule(settings, generateSetting, group, groupRule, iterAssetRule);
 		}
 	}
 
-	private static void GenerateWithAssetRule(AddressableAssetSettings settings, AddressableAssetGroup group, GroupRule groupRule, AssetRule assetRule)
+	private static void GenerateWithAssetRule(AddressableAssetSettings settings, GenerateSetting generateSetting, AddressableAssetGroup group, GroupRule groupRule, AssetRule assetRule)
 	{
 		int assetsIndexOf = Application.dataPath.LastIndexOf("Assets");
 		string realPath = Application.dataPath.Substring(0, assetsIndexOf) + assetRule.Path;
@@ -127,7 +173,7 @@ public static class hwmAddressablesSystemUtility
 				Debug.LogError(string.Format("Group-{0}的GroupName为空", iterGroupRule.GroupName));
 			}
 
-			for (int iAsset = 0; iAsset < iterGroupRule.AssetRules.Length;iAsset++)
+			for (int iAsset = 0; iAsset < iterGroupRule.AssetRules.Length; iAsset++)
 			{
 				AssetRule iterAssetRule = iterGroupRule.AssetRules[iAsset];
 				if (!(iterAssetRule.Path.StartsWith("Assets")

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Unit
   m_Data:
     m_SerializedData: []
-  m_GUID: e94674a5c298899408e76d2321c53644
+  m_GUID: 17c27e7bc0a838640a08a79335b68fbd
   m_SerializeEntries:
   - m_GUID: 190a7bec2282e054eaddbb31905bb689
     m_Address: Assets\Test\Addressalbe\Unit\New Folder\GameObje 1.prefab
@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 99cf4797c72972c4583b52770e4f2a58, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 4beb2beb1dcfec84eb67a650dfc75174, type: 2}
+    - {fileID: 11400000, guid: b96cea6833a6bf647879f7e7f5ba916e, type: 2}

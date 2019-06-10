@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d9dbe26f554f74ea7a41900012e40a, type: 3}
   m_Name: AddressablesSystemConfig
   m_EditorClassIdentifier: 
+  _ForInspector: 0
+  MyGenerateSetting:
+    RecreateGroup: 0
+    RemoveInvalidAsset: 0
+    SpecifiedGroupName: Map
   GroupRules:
   - GroupName: Map
     SchemasToCopy:

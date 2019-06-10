@@ -5,7 +5,7 @@ using UnityEngine;
 public sealed class hwmAddressablesSystemEditorDrawer : PropertyDrawer
 {
 	private const float PROPERTY_SPACING_HEIGHT = 3.6f;
-	private const int PROPERTY_COUNT = 3;
+	private const int PROPERTY_COUNT = 4;
 
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
@@ -21,6 +21,12 @@ public sealed class hwmAddressablesSystemEditorDrawer : PropertyDrawer
 			if (GUI.Button(position, "Generate All"))
 			{
 				hwmAddressablesSystemUtility.GenerateAll(config);
+			}
+
+			position.y += propertyHeight + PROPERTY_SPACING_HEIGHT;
+			if (GUI.Button(position, "Generate Specified"))
+			{
+				hwmAddressablesSystemUtility.GenerateSpecified(config);
 			}
 
 			position.y += propertyHeight + PROPERTY_SPACING_HEIGHT;

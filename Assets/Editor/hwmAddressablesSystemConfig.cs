@@ -10,7 +10,30 @@ public class hwmAddressablesSystemConfig : ScriptableObject
 	[hwmAddressablesSystemEditor()]
 	public bool _ForInspector;
 
+	public GenerateSetting MyGenerateSetting;
+	[Space(10)]
 	public GroupRule[] GroupRules;
+
+	[System.Serializable]
+	public struct GenerateSetting
+	{
+		/// <summary>
+		/// true：如果Group已经存在，会先移除Group再重新创建
+		/// 这个过程会比较耗时，如果没有严重BUG，不要勾选这个选项
+		/// </summary>
+		[Tooltip("true：如果Group已经存在，会先移除Group再重新创建\n这个过程会比较耗时，如果没有严重BUG，不要勾选这个选项")]
+		public bool RecreateGroup;
+		/// <summary>
+		/// 移除无效的Asset，包括：
+		///		文件Missing
+		///	TODO 这个功能还没做，等不做不行的时候再做
+		/// </summary>
+		public bool RemoveInvalidAsset;
+		/// <summary>
+		/// 只生成一个Group时，生成哪个Group
+		/// </summary>
+		public string SpecifiedGroupName;
+	}
 
 	[System.Serializable]
 	public struct GroupRule
