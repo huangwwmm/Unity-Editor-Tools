@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Map
   m_Data:
     m_SerializedData: []
-  m_GUID: 2dcf2f6359da3b54797f8dda6e3e5a11
+  m_GUID: 5c5df96b64716e844ad609c612c41ec9
   m_SerializeEntries:
   - m_GUID: 33af9cb3afb6b394297ae413623debf4
     m_Address: Map_Ga 1
@@ -57,4 +57,4 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 99cf4797c72972c4583b52770e4f2a58, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 525fb2dfc121b7849a5afce31c3206f2, type: 2}
+    - {fileID: 11400000, guid: 8099ba4467ce5974ba00176a170a8a9b, type: 2}

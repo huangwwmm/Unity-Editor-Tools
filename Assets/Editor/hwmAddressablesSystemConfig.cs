@@ -7,113 +7,10 @@ using UnityEditor;
 
 public class hwmAddressablesSystemConfig : ScriptableObject
 {
+	[hwmAddressablesSystemEditor()]
+	public bool _ForInspector;
+
 	public GroupRule[] GroupRules;
-
-	[ContextMenu("Test")]
-	private void GenerateAll()
-	{
-		AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-		for (int iGroupRule = 0; iGroupRule < GroupRules.Length; iGroupRule++)
-		{
-			GroupRule iterGroupRule = GroupRules[iGroupRule];
-			if (string.IsNullOrWhiteSpace(iterGroupRule.GroupName))
-			{
-				Debug.LogError(string.Format("Group index ({0}) name is empty", iGroupRule));
-				continue;
-			}
-
-			GenerateWithGroupRule(settings, iterGroupRule);
-		}
-	}
-
-	private void GenerateWithGroupRule(AddressableAssetSettings settings, GroupRule groupRule)
-	{
-		AddressableAssetGroup oldGroup = settings.FindGroup(groupRule.GroupName);
-		if (oldGroup)
-		{
-			settings.RemoveGroup(oldGroup);
-			oldGroup = null;
-		}
-
-		AddressableAssetGroup group = settings.CreateGroup(groupRule.GroupName, false, false, true, groupRule.SchemasToCopy);
-		for (int iAssetRule = 0; iAssetRule < groupRule.AssetRules.Length; iAssetRule++)
-		{
-			AssetRule iterAssetRule = groupRule.AssetRules[iAssetRule];
-			GenerateWithAssetRule(settings, group, groupRule, iterAssetRule);
-		}
-	}
-
-	private void GenerateWithAssetRule(AddressableAssetSettings settings, AddressableAssetGroup group, GroupRule groupRule, AssetRule assetRule)
-	{
-		int assetsIndexOf = Application.dataPath.LastIndexOf("Assets");
-		string realPath = Application.dataPath.Substring(0, assetsIndexOf) + assetRule.Path;
-		if (!Directory.Exists(realPath))
-		{
-			Debug.LogError(string.Format("Path ({0}) of group ({1}) not exists", realPath, groupRule.GroupName));
-			return;
-		}
-		DirectoryInfo directoryInfo = new DirectoryInfo(realPath);
-		FileInfo[] files = directoryInfo.GetFiles("*.*", assetRule.IncludeChilder ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-		for (int iFile = 0; iFile < files.Length; iFile++)
-		{
-			FileInfo iterFile = files[iFile];
-			string iterFileName = iterFile.Name.Substring(0, iterFile.Name.Length - iterFile.Extension.Length);
-			// meta文件肯定是要忽略的
-			if (iterFile.Extension == ".meta")
-			{
-				continue;
-			}
-
-			if (!Filter(assetRule.ExtensionFilterType, iterFile.Extension, assetRule.ExtensionFilters)
-				|| !Filter(assetRule.FileNameFilterType, iterFileName, assetRule.FileNameFilters))
-			{
-				continue;
-			}
-
-			string iterAssetPath = iterFile.FullName.Substring(assetsIndexOf);
-			string assetKey;
-			switch (assetRule.AssetKeyType)
-			{
-				case AssetKeyType.FileName:
-					assetKey = iterFileName;
-					break;
-				case AssetKeyType.FileNameFormat:
-					assetKey = string.Format(assetRule.AssetKeyFormat, iterFileName);
-					break;
-				case AssetKeyType.Path:
-					assetKey = iterAssetPath;
-					break;
-				default:
-					assetKey = string.Empty;
-					throw new System.Exception(string.Format("not support ExtensionFilterType ({0})", assetRule.ExtensionFilterType));
-			}
-
-			string iterAssetGuid = AssetDatabase.AssetPathToGUID(iterAssetPath);
-			AddressableAssetEntry iterAssetEntry = AddressableAssetSettingsDefaultObject.Settings.CreateOrMoveEntry(iterAssetGuid, group);
-			if (iterAssetEntry == null)
-			{
-				Debug.LogError(string.Format("Cant load asset at path ({0})", iterAssetPath));
-			}
-			iterAssetEntry.SetAddress(assetKey);
-			for (int iLabel = 0; iLabel < assetRule.AssetLables.Length; iLabel++)
-			{
-				iterAssetEntry.SetLabel(assetRule.AssetLables[iLabel], true);
-			}
-		}
-	}
-
-	private bool Filter(FilterType filterType, string value, List<string> filters)
-	{
-		switch (filterType)
-		{
-			case FilterType.BlackList:
-				return !filters.Contains(value);
-			case FilterType.WhiteList:
-				return filters.Contains(value);
-			default:
-				throw new System.Exception(string.Format("not support ExtensionFilterType ({0})", filterType));
-		}
-	}
 
 	[System.Serializable]
 	public struct GroupRule
@@ -127,32 +24,42 @@ public class hwmAddressablesSystemConfig : ScriptableObject
 	public struct AssetRule
 	{
 		/// <summary>
-		/// 路径
+		/// 路径，以Assets开头，结尾要加/
 		/// </summary>
+		[Tooltip("路径，以Assets开头，结尾要加/")]
 		public string Path;
 		/// <summary>
-		/// 包含子目录
+		/// true: 递归所有子目录 false：只查找顶目录
 		/// </summary>
+		[Tooltip("true: 递归所有子目录 false：只查找顶目录")]
 		public bool IncludeChilder;
 		/// <summary>
 		/// <see cref="AddressableAssetEntry.address"/>
 		/// </summary>
+		[Tooltip("生成的Asset的Key的规则")]
 		public AssetKeyType AssetKeyType;
 		/// <summary>
 		/// <see cref="AssetKeyType.FileNameFormat"/>时用的
+		/// string.Format(AssetKeyFormat, assetFileName)
+		/// 例如Asset文件名为abc，AssetKeyFormat为M_{0}，最终生成的AssetKey为M_abc
 		/// </summary>
+		[Tooltip("AssetKeyType为FileNameFormat时用的，string.Format(AssetKeyFormat, assetFileName)\n例如Asset文件名为abc，AssetKeyFormat为M_{0}，最终生成的AssetKey为M_abc")]
 		public string AssetKeyFormat;
 		/// <summary>
 		/// 决定<see cref="ExtensionFilters"/>的用途
 		/// </summary>
+		[Tooltip("扩展名的筛选规则")]
 		public FilterType ExtensionFilterType;
 		/// <summary>
 		/// <see cref="ExtensionFilterType"/>
+		/// 开头必须是"."
 		/// </summary>
+		[Tooltip("开头必须是\".\"")]
 		public List<string> ExtensionFilters;
 		/// <summary>
 		/// 决定<see cref="FileNameFilters"/>的用途
 		/// </summary>
+		[Tooltip("文件名的筛选规则")]
 		public FilterType FileNameFilterType;
 		/// <summary>
 		/// <see cref="FileNameFilterType"/>
