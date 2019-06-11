@@ -23,18 +23,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - B
     - C
-  - m_GUID: 407ad1632c7c01748b6c53422fda6dfa
-    m_Address: Assets\Test\Addressalbe\Unit\New Folder\GameObje Variant.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - B
-    - C
-  - m_GUID: cf2244d4c6ba05e40ab1352032070621
-    m_Address: Assets\Test\Addressalbe\Unit\New Folder\GameObje.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - B
-    - C
   - m_GUID: f1f8b76c4f9b5c8469dfe58a621d6a6c
     m_Address: Assets\Test\Addressalbe\Unit\GameObje5.prefab
     m_ReadOnly: 0

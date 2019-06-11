@@ -24,14 +24,21 @@ public class hwmAddressablesSystemConfig : ScriptableObject
 		[Tooltip("true：如果Group已经存在，会先移除Group再重新创建\n这个过程会比较耗时，如果没有严重BUG，不要勾选这个选项")]
 		public bool RecreateGroup;
 		/// <summary>
+		/// false时不应用AssetRule
+		/// 这个选项的目的是应用AssetRule比较耗时，有时只想移除无效Asset，不勾选这个选项可以加快速度
+		/// </summary>
+		[Tooltip("false时不应用AssetRule\n这个选项的目的是应用AssetRule比较耗时，有时只想移除无效Asset，不勾选这个选项可以加快速度")]
+		public bool ApplyAssetRule;
+		/// <summary>
 		/// 移除无效的Asset，包括：
 		///		文件Missing
-		///	TODO 这个功能还没做，等不做不行的时候再做
 		/// </summary>
+		[Tooltip("移除无效的Asset，包括：\n\t文件Missing")]
 		public bool RemoveInvalidAsset;
 		/// <summary>
-		/// 只生成一个Group时，生成哪个Group
+		/// Generate Specified的组
 		/// </summary>
+		[Tooltip("Generate Specified的组")]
 		public string SpecifiedGroupName;
 	}
 

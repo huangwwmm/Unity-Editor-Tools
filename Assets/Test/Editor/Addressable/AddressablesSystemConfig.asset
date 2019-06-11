@@ -15,7 +15,8 @@ MonoBehaviour:
   _ForInspector: 0
   MyGenerateSetting:
     RecreateGroup: 0
-    RemoveInvalidAsset: 0
+    ApplyAssetRule: 0
+    RemoveInvalidAsset: 1
     SpecifiedGroupName: Map
   GroupRules:
   - GroupName: Map

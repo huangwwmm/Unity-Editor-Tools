@@ -16,43 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: ae24f13a2d5862241887d6f19fedc3b1
-  m_SerializeEntries:
-  - m_GUID: 33af9cb3afb6b394297ae413623debf4
-    m_Address: Map_Ga 1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - A
-    - B
-  - m_GUID: 5fb2a07c1ec6dc64c98b2d78c555db8b
-    m_Address: Map_Ga
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - A
-    - B
-  - m_GUID: 7c7cf9db407d3dc4fafb70cbc3bb759b
-    m_Address: Map_New Material
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - A
-    - B
-  - m_GUID: aa750ddee1e226740878ca65e49c7c4e
-    m_Address: Map_GameObject
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - A
-    - B
-  - m_GUID: bc4340f7805b086458dbe5a81b84ebd7
-    m_Address: Map_GameObject 2
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - A
-    - B
-  - m_GUID: e1a32ccfa2c0e8743b0f3ec012d4331b
-    m_Address: Map_GameObject 1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - A
-    - B
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 99cf4797c72972c4583b52770e4f2a58, type: 2}
   m_SchemaSet:

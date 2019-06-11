@@ -36,26 +36,31 @@ public static class hwmAddressablesSystemUtility
 			return;
 		}
 
-		bool generate = false;
-		AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-		for (int iGroupRule = 0; iGroupRule < config.GroupRules.Length; iGroupRule++)
+		if (SearchGroupRule(config, specifiedGroupName, out GroupRule groupRule))
 		{
-			GroupRule iterGroupRule = config.GroupRules[iGroupRule];
-			if (iterGroupRule.GroupName == specifiedGroupName)
-			{
-				generate = true;
-				GenerateWithGroupRule(settings, config.MyGenerateSetting, iterGroupRule);
-			}
-		}
-
-		if (generate)
-		{
+			GenerateWithGroupRule(AddressableAssetSettingsDefaultObject.Settings, config.MyGenerateSetting, groupRule);
 			Debug.Log(string.Format("Generate specified group ({0}) finish", specifiedGroupName));
 		}
 		else
 		{
 			Debug.LogError(string.Format("Not found specified group ({0})", specifiedGroupName));
 		}
+	}
+
+	private static bool SearchGroupRule(hwmAddressablesSystemConfig config, string groupName, out GroupRule groupRule)
+	{
+		for (int iGroupRule = 0; iGroupRule < config.GroupRules.Length; iGroupRule++)
+		{
+			GroupRule iterGroupRule = config.GroupRules[iGroupRule];
+			if (iterGroupRule.GroupName == groupName)
+			{
+				groupRule = iterGroupRule;
+				return true;
+			}
+		}
+
+		groupRule = new GroupRule();
+		return false;
 	}
 
 	private static void GenerateWithGroupRule(AddressableAssetSettings settings, GenerateSetting generateSetting, GroupRule groupRule)
@@ -83,10 +88,18 @@ public static class hwmAddressablesSystemUtility
 			}
 		}
 
-		for (int iAssetRule = 0; iAssetRule < groupRule.AssetRules.Length; iAssetRule++)
+		if (generateSetting.ApplyAssetRule)
 		{
-			AssetRule iterAssetRule = groupRule.AssetRules[iAssetRule];
-			GenerateWithAssetRule(settings, generateSetting, group, groupRule, iterAssetRule);
+			for (int iAssetRule = 0; iAssetRule < groupRule.AssetRules.Length; iAssetRule++)
+			{
+				AssetRule iterAssetRule = groupRule.AssetRules[iAssetRule];
+				GenerateWithAssetRule(settings, generateSetting, group, groupRule, iterAssetRule);
+			}
+		}
+
+		if (generateSetting.RemoveInvalidAsset)
+		{
+			RemoveInvalidAsset(group);
 		}
 	}
 
@@ -128,7 +141,8 @@ public static class hwmAddressablesSystemUtility
 					assetKey = string.Format(assetRule.AssetKeyFormat, iterFileName);
 					break;
 				case AssetKeyType.Path:
-					assetKey = iterAssetPath;
+					// Unity默认的路径分隔符是'/'
+					assetKey = iterAssetPath.Replace('\\', '/');
 					break;
 				default:
 					assetKey = string.Empty;
@@ -159,6 +173,24 @@ public static class hwmAddressablesSystemUtility
 				return filters.Contains(value);
 			default:
 				throw new System.Exception(string.Format("not support ExtensionFilterType ({0})", filterType));
+		}
+	}
+
+	private static void RemoveInvalidAsset(AddressableAssetGroup group)
+	{
+		List<AddressableAssetEntry> invalidAssets = new List<AddressableAssetEntry>();
+		foreach (AddressableAssetEntry iterAsset in group.entries)
+		{
+			if (string.IsNullOrWhiteSpace(AssetDatabase.GUIDToAssetPath(iterAsset.guid)))
+			{
+				invalidAssets.Add(iterAsset);
+			}
+		}
+
+		for (int iAsset = 0; iAsset < invalidAssets.Count; iAsset++)
+		{
+			AddressableAssetEntry iterAsset = invalidAssets[iAsset];
+			group.RemoveAssetEntry(iterAsset, false);
 		}
 	}
 	#endregion End Generate
