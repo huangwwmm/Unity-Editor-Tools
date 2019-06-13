@@ -54,6 +54,7 @@ public class hwmMaterialSerializedCleaner : EditorWindow
 				processMaterialCount += hasUnused ? 1 : 0;
 			}
 		}
+		AssetDatabase.SaveAssets();
 		yield return null;
 		EditorUtility.ClearProgressBar();
 		stopwatch.Stop();
